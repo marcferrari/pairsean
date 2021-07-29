@@ -1,0 +1,38 @@
+---
+title: "Module 4 Pair Quiz"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Ayuson, Marc Edison
+
+See, Sean Jacob
+
+
+A.
+
+```{r}
+y <- c(1, 0, 1, 2, 5, 1, 4, 6, 2, 3, 5, 4, 6, 8, 4, 5, 7, 9, 7, 6)
+
+x <- c(60,	63,	65,	70,	70,	70,	80,	90,	80,	80,	85,	89,	90,	90,	90,	90,	94,	100,	100,	100)
+
+plot(x, y, pch=16, cex=1, main = "Sound Pressure Level(dB) vs Blood Pressure Rise(mmHg)" ,xlab = "Sound Pressure Level in Decibels (dB)", ylab= "Blood Pressure Rise in Millimeters of Mercury (mmHg)")
+
+lm(y ~ x)
+
+abline(lm(y ~ x), col = "blue")
+```
+
+B.
+
+```{r}
+
+fit <- lm(y ~ x)
+
+summary(fit)
+
+(summary(fit)$sigma)**2 
+
+```
