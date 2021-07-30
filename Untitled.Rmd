@@ -162,3 +162,16 @@ $\hat y = 4.6834438$
 </center>
 
 Our answer would be 4.6834438 or approximately 5. This would show that our **predicted mean rise in blood pressure level associated with a sound pressure level is 5 mmHg**.
+
+### Question 2
+
+**An article in Optical Engineering ["Operating Curve Extraction of a Correlator's Filter" (2004, Vol. 43, pp. 2775-2779)] reported on the use of an optical correlator to perform an experiment by varying brightness and contrast. The resulting modulation is characterized by the useful range of gray levels.**
+
+```{r}
+
+B <-	c(54, 61,	65,	100, 100,	100, 50, 57, 54)
+C <- c(56, 80, 70, 50, 65, 80, 25, 35, 26)
+Ur <- c(96, 50, 50,	112, 96, 80, 155, 144, 255)
+
+lm(Ur ~ B + C)
+```
