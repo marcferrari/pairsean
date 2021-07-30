@@ -34,6 +34,8 @@ lm(y ~ x)
 abline(lm(y ~ x), col = "blue")
 ```
 
+Based on the graph shown above, **a linear regression model would be reasonable** as there is a linear relationship between the given variables. There is a trend that shows that as one variable increases, the other variable also increases.
+
 ---
 
 #### B. Fit the simple linear regression model using least squares. Find an estimate of $\sigma^2$.
@@ -42,25 +44,121 @@ abline(lm(y ~ x), col = "blue")
 
 fit <- lm(y ~ x)
 
+```
+
+We can find the estimate through the formula:
+
+<center>
+
+$\sigma^2 = \frac {SSE}{n-2}$
+
+</center>
+
+wherein n = 20 and,
+
+The formula for the SSE is as follows:
+
+<center>
+
+$\sum_{i=1}^n (y_i-\hat y_i)^2$
+
+</center>
+
+This would give us the value for SSE below:
+
+```{r}
+
+SSE <- sum((fitted(fit) - y)^2)
+
+SSE
+
+```
+
+We can now plug it in the first equation which gives us:
+
+<center>
+
+$\sigma^2 = \frac {31.26647}{20-2}$
+
+$\sigma^2 = \frac {31.26647}{18}$
+
+$\sigma^2 = 1.737026$
+
+</center>
+
+This would give us an **estimated value of $\sigma^2$ as 1.737026**.
+
+#### Rechecking:
+
+```{r}
+
 summary(fit)
+
+```
+
+Shown above is the summary of the fit variable wherein the variable is comprised of the lm function of y and x. With this, **we can also find an estimate of $\sigma^2$ through getting the square of the residual standard error**. This is shown by the code below.
+
+<br>
+
+```{r}
 
 (summary(fit)$sigma)**2 
 
 ```
 
+This would give us an **estimated value of 1.737026 for $\sigma^2$**.
+
 ---
 
 #### C. Find the predicted mean rise in blood pressure level associated with a sound pressure level of 85 decibels.
 
+The formula for the a simple regression line would be as follows:
+
+<center>
+
+$\hat y = \hat \beta_0 + \hat \beta_1x$
+
+</center>
+
+With this in mind, we can find $\hat \beta_0$ and $\hat \beta_1$ through these steps. 
+
 ```{r}
 
-Sxy = sum((x - mean(x)) * (y - mean(y)))
-Sxx = sum((x - mean(x)) ^ 2)
-Syy = sum((y - mean(y)) ^ 2)
-c(Sxy, Sxx, Syy)
-
-beta_1_hat = Sxy / Sxx
-beta_0_hat = mean(y) - beta_1_hat * mean(x)
-c(beta_0_hat, beta_1_hat)
+Sumxy = sum((x - mean(x)) * (y - mean(y)))
+Sumx2= sum((x - mean(x)) ^ 2)
+Sumy2 = sum((y - mean(y)) ^ 2)
+c(Sumxy, Sumx2, Sumy2)
 
 ```
+
+Through these values, we can already find the values for our first equation.
+
+```{r}
+
+beta1 = Sumxy / Sumx2
+beta0 = mean(y) - beta1 * mean(x)
+c(beta0, beta1)
+
+```
+
+This gives us the equation:
+
+<center>
+
+$\hat y = -10.1315377 + 0.1742939x$
+
+</center>
+
+This would be our simple linear regression model wherein we can plug the value of which is 85.
+
+<center>
+
+$\hat y = -10.1315377 + 0.1742939(85)$
+
+$\hat y = -10.1315377 + 14.8149815$
+
+$\hat y = 4.6834438$
+
+</center>
+
+Our answer would be 4.6834438 or approximately 5. This would show that our **predicted mean rise in blood pressure level associated with a sound pressure level is 5 mmHg**.
