@@ -6,11 +6,9 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-Ayuson, Marc Edison
-
-See, Sean Jacob
-
-7/29/21
+#### Ayuson, Marc Edison
+#### See, Sean Jacob
+#### 7/29/21
 
 ## Questions {.tabset .tabfade}
 
