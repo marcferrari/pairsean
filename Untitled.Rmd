@@ -151,7 +151,6 @@ $\hat y = 4.6834438$
 
 </center>
 
-<<<<<<< HEAD
 Our answer would be 4.6834438 or approximately 5. This would show that our **predicted mean rise in blood pressure level associated with a sound pressure level is 5 mmHg**.
 
 ### Question 2
@@ -166,6 +165,3 @@ Ur <- c(96, 50, 50,	112, 96, 80, 155, 144, 255)
 
 lm(Ur ~ B + C)
 ```
-=======
-Our answer would be 4.6834438 or approximately 5. This would show that our **predicted mean rise in blood pressure level associated with a sound pressure level is 5 mmHg**
->>>>>>> 44f0a688dcb870636118f7086f7fd1766e6f96d0
