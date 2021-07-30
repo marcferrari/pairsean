@@ -24,13 +24,16 @@ See, Sean Jacob
 
 ```{r}
 y <- c(1, 0, 1, 2, 5, 1, 4, 6, 2, 3, 5, 4, 6, 8, 4, 5, 7, 9, 7, 6)
-
 x <- c(60,	63,	65,	70,	70,	70,	80,	90,	80,	80,	85,	89,	90,	90,	90,	90,	94,	100,	100,	100)
+table<-data.frame(y,x)
+knitr::kable(table,"pipe",col.name=c("Blood Pressure Rise in milimeters of Mercury (mmHg)", "Sound Pressure Level in Decibels(dB)"), align=c("c","c"))
+```
 
+```{r}
+y <- c(1, 0, 1, 2, 5, 1, 4, 6, 2, 3, 5, 4, 6, 8, 4, 5, 7, 9, 7, 6)
+x <- c(60,	63,	65,	70,	70,	70,	80,	90,	80,	80,	85,	89,	90,	90,	90,	90,	94,	100,	100,	100)
 plot(x, y, pch=16, cex=1, main = "Sound Pressure Level(dB) vs Blood Pressure Rise(mmHg)" ,xlab = "Sound Pressure Level in Decibels (dB)", ylab= "Blood Pressure Rise in Millimeters of Mercury (mmHg)")
-
 lm(y ~ x)
-
 abline(lm(y ~ x), col = "blue")
 ```
 
@@ -41,9 +44,7 @@ Based on the graph shown above, **a linear regression model would be reasonable*
 #### B. Fit the simple linear regression model using least squares. Find an estimate of $\sigma^2$.
 
 ```{r}
-
 fit <- lm(y ~ x)
-
 ```
 
 We can find the estimate through the formula:
@@ -67,11 +68,8 @@ $\sum_{i=1}^n (y_i-\hat y_i)^2$
 This would give us the value for SSE below:
 
 ```{r}
-
 SSE <- sum((fitted(fit) - y)^2)
-
 SSE
-
 ```
 
 We can now plug it in the first equation which gives us:
@@ -91,9 +89,7 @@ This would give us an **estimated value of $\sigma^2$ as 1.737026**.
 #### Rechecking:
 
 ```{r}
-
 summary(fit)
-
 ```
 
 Shown above is the summary of the fit variable wherein the variable is comprised of the lm function of y and x. With this, **we can also find an estimate of $\sigma^2$ through getting the square of the residual standard error**. This is shown by the code below.
@@ -101,9 +97,7 @@ Shown above is the summary of the fit variable wherein the variable is comprised
 <br>
 
 ```{r}
-
 (summary(fit)$sigma)**2 
-
 ```
 
 This would give us an **estimated value of 1.737026 for $\sigma^2$**.
@@ -123,22 +117,18 @@ $\hat y = \hat \beta_0 + \hat \beta_1x$
 With this in mind, we can find $\hat \beta_0$ and $\hat \beta_1$ through these steps. 
 
 ```{r}
-
 Sumxy = sum((x - mean(x)) * (y - mean(y)))
 Sumx2= sum((x - mean(x)) ^ 2)
 Sumy2 = sum((y - mean(y)) ^ 2)
 c(Sumxy, Sumx2, Sumy2)
-
 ```
 
 Through these values, we can already find the values for our first equation.
 
 ```{r}
-
 beta1 = Sumxy / Sumx2
 beta0 = mean(y) - beta1 * mean(x)
 c(beta0, beta1)
-
 ```
 
 This gives us the equation:
@@ -161,6 +151,7 @@ $\hat y = 4.6834438$
 
 </center>
 
+<<<<<<< HEAD
 Our answer would be 4.6834438 or approximately 5. This would show that our **predicted mean rise in blood pressure level associated with a sound pressure level is 5 mmHg**.
 
 ### Question 2
@@ -175,3 +166,6 @@ Ur <- c(96, 50, 50,	112, 96, 80, 155, 144, 255)
 
 lm(Ur ~ B + C)
 ```
+=======
+Our answer would be 4.6834438 or approximately 5. This would show that our **predicted mean rise in blood pressure level associated with a sound pressure level is 5 mmHg**
+>>>>>>> 44f0a688dcb870636118f7086f7fd1766e6f96d0
