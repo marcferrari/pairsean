@@ -10,8 +10,17 @@ Ayuson, Marc Edison
 
 See, Sean Jacob
 
+7/29/21
 
-A.
+## Questions {.tabset .tabfade}
+
+### Question 1
+
+**1. An article in the Journal of Sound and Vibration ["Measurement of Noise-Evoked Blood Pressure by Means of Averaging Method: Relation between Blood Pressure Rise and PSL" (1991, Vol. 151(3), pp. 383-394)] described a study investigating the relationship between noise exposure and hypertension. The following data are representative of those reported in the article.**
+
+---
+
+#### A. Draw a scatter diagram of y (blood pressure rise in millimeters of mercury) versus x (sound pressure level in decibels). Does a simple linear regression model seem reasonable in this situation?
 
 ```{r}
 y <- c(1, 0, 1, 2, 5, 1, 4, 6, 2, 3, 5, 4, 6, 8, 4, 5, 7, 9, 7, 6)
@@ -25,7 +34,9 @@ lm(y ~ x)
 abline(lm(y ~ x), col = "blue")
 ```
 
-B.
+---
+
+#### B. Fit the simple linear regression model using least squares. Find an estimate of $\sigma^2$.
 
 ```{r}
 
@@ -34,5 +45,22 @@ fit <- lm(y ~ x)
 summary(fit)
 
 (summary(fit)$sigma)**2 
+
+```
+
+---
+
+#### C. Find the predicted mean rise in blood pressure level associated with a sound pressure level of 85 decibels.
+
+```{r}
+
+Sxy = sum((x - mean(x)) * (y - mean(y)))
+Sxx = sum((x - mean(x)) ^ 2)
+Syy = sum((y - mean(y)) ^ 2)
+c(Sxy, Sxx, Syy)
+
+beta_1_hat = Sxy / Sxx
+beta_0_hat = mean(y) - beta_1_hat * mean(x)
+c(beta_0_hat, beta_1_hat)
 
 ```
