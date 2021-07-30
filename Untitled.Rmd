@@ -155,6 +155,10 @@ Our answer would be 4.6834438 or approximately 5. This would show that our **pre
 
 **An article in Optical Engineering ["Operating Curve Extraction of a Correlator's Filter" (2004, Vol. 43, pp. 2775-2779)] reported on the use of an optical correlator to perform an experiment by varying brightness and contrast. The resulting modulation is characterized by the useful range of gray levels.**
 
+#### A. Fit a multiple linear regression model to these data.
+
+Through the lm function, we can find the coefficients of our linear regression model.
+
 ```{r}
 
 B <-	c(54, 61,	65,	100, 100,	100, 50, 57, 54)
@@ -163,3 +167,11 @@ Ur <- c(96, 50, 50,	112, 96, 80, 155, 144, 255)
 
 lm(Ur ~ B + C)
 ```
+
+With this our linear regression model is as follows:
+
+<center>
+
+$\hat y = 238.5569   +    0.3339x_1   +  (-2.7167)x_2$
+
+</center>
