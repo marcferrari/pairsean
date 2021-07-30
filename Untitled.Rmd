@@ -20,14 +20,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #### A. Draw a scatter diagram of y (blood pressure rise in millimeters of mercury) versus x (sound pressure level in decibels). Does a simple linear regression model seem reasonable in this situation?
 
-```{r}
+```{r echo=FALSE}
 y <- c(1, 0, 1, 2, 5, 1, 4, 6, 2, 3, 5, 4, 6, 8, 4, 5, 7, 9, 7, 6)
 x <- c(60,	63,	65,	70,	70,	70,	80,	90,	80,	80,	85,	89,	90,	90,	90,	90,	94,	100,	100,	100)
 table<-data.frame(y,x)
 knitr::kable(table,"pipe",col.name=c("Blood Pressure Rise in milimeters of Mercury (mmHg)", "Sound Pressure Level in Decibels(dB)"), align=c("c","c"))
 ```
 
-```{r}
+```{r echo=FALSE}
 y <- c(1, 0, 1, 2, 5, 1, 4, 6, 2, 3, 5, 4, 6, 8, 4, 5, 7, 9, 7, 6)
 x <- c(60,	63,	65,	70,	70,	70,	80,	90,	80,	80,	85,	89,	90,	90,	90,	90,	94,	100,	100,	100)
 plot(x, y, pch=16, cex=1, main = "Sound Pressure Level(dB) vs Blood Pressure Rise(mmHg)" ,xlab = "Sound Pressure Level in Decibels (dB)", ylab= "Blood Pressure Rise in Millimeters of Mercury (mmHg)")
@@ -151,6 +151,7 @@ $\hat y = 4.6834438$
 
 Our answer would be 4.6834438 or approximately 5. This would show that our **predicted mean rise in blood pressure level associated with a sound pressure level is 5 mmHg**.
 
+
 ### Question 2
 
 **1. An article in Optical Engineering ["Operating Curve Extraction of a Correlator's Filter" (2004, Vol. 43, pp. 2775-2779)] reported on the use of an optical correlator to perform an experiment by varying brightness and contrast. The resulting modulation is characterized by the useful range of gray levels.**
@@ -170,11 +171,9 @@ $\hat y = \beta_0   +   \beta_1x_1   +  \beta_2x_2$
 Through the lm function, we can find the coefficients ($\beta_0 , \beta_1 , \beta_2$) of our linear regression model.
 
 ```{r}
-
 B <-	c(54, 61,	65,	100, 100,	100, 50, 57, 54)
 C <- c(56, 80, 70, 50, 65, 80, 25, 35, 26)
 Ur <- c(96, 50, 50,	112, 96, 80, 155, 144, 255)
-
 lm(Ur ~ B + C)
 ```
 
@@ -185,6 +184,33 @@ With this, **our linear regression model is $\hat y = 238.5569   +    0.3339x_1 
 ---
 
 #### B. Estimate $\sigma^2$.
+
+The formula for the error of squares is
+
+$$SS_E=\sum_{i=1}^{n}e_i^2=\sum_{i=1}^{n}(y_i-\hat{y}_i)^2$$
+Given 
+
+$n=9$
+$p=3$ 
+
+
+Practical Interpretation: This implies that the average of the squared difference between each predicted values and the actual values for the useful range is σ2≈1321.3.
+
+Since the Linear Regression Model is $\hat y = 238.5569   +    0.3339x_1   +  (-2.7167)x_2$
+
+An unbiased estimator of $\sigma^2$ is
+
+$$\sigma^2=\frac{SS_E}{n-3}$$
+
+
+
+
+
+
+
+
+
+
 
 
 
