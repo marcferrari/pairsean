@@ -152,11 +152,28 @@ $\hat y = 4.6834438$
 Our answer would be 4.6834438 or approximately 5. This would show that our **predicted mean rise in blood pressure level associated with a sound pressure level is 5 mmHg**.
 
 
+
 ### Question 2
 
 **1. An article in Optical Engineering ["Operating Curve Extraction of a Correlator's Filter" (2004, Vol. 43, pp. 2775-2779)] reported on the use of an optical correlator to perform an experiment by varying brightness and contrast. The resulting modulation is characterized by the useful range of gray levels.**
 
 ---
+
+```{r echo=FALSE}
+y_i  <- c(96, 50,	50,	112,	96,	80,	155,	144,	255)
+x_1 <- c(54,	61,	65,	100,	100,	100,	50,	57,	54)
+x_2 <- c(56,	80,	70,	50,	65,	80,	25,	35,	26)
+
+dat<-data.frame(y_i,x_1,x_2)
+
+knitr::kable(dat,"pipe",col.name=c("Useful Range $y_i$", "Brightness (%) $x_{1i}$", "Contrast (%) $x_{2i}$"), align=c("c","c", "c"))
+
+plot(dat)
+
+
+```
+
+
 
 #### A. Fit a multiple linear regression model to these data.
 
@@ -188,37 +205,112 @@ With this, **our linear regression model is $\hat y = 238.5569   +    0.3339x_1 
 The formula for the error of squares is
 
 $$SS_E=\sum_{i=1}^{n}e_i^2=\sum_{i=1}^{n}(y_i-\hat{y}_i)^2$$
-Given 
+
+
+
+Since the Linear Regression Model is $\hat y = 238.5569   +    0.3339x_1   +  (-2.7167)x_2$, we can solve for $\hat{y_i}$ $SS_E$ using the formula $(y_i-\hat{y_i})^2$
+
+|Number| $y_i$ | $\hat{y_i}$ | $e_i=y_i-\hat{y_i}$ | $e_i^2$ |
+|:----:|:-----:|:-----------:|:---------------------:|:-------:|
+|     1|     96|     104.4523|                -8.4523|  71.44138|
+|     2|     50|      41.5888|                 8.4112|  70.74829|
+|     3|     50|      70.0914|               -20.0914|  403.6644|
+|     4|    112|     139.1119|               -24.1119|  581.3837|
+|     5|     96|      95.3614|                 0.6386|   0.40781|
+|     6|     80|      54.6109|                25.3891|  644.6064|
+|     7|    155|     187.3344|               -32.3344|  1045.513|
+|     8|    144|     162.5047|               -18.5047|  342.4239|
+|     9|    255|     185.9533|                69.0467|  4767.447|
+|------|-------|-------------|-----------------------|----------|
+|$\sum_1^9e_i^2$| | | | 7927.636|
+
+
+
+
+Given: 
 
 $n=9$
+
 $p=3$ 
-
-
-Practical Interpretation: This implies that the average of the squared difference between each predicted values and the actual values for the useful range is σ2≈1321.3.
-
-Since the Linear Regression Model is $\hat y = 238.5569   +    0.3339x_1   +  (-2.7167)x_2$
 
 An unbiased estimator of $\sigma^2$ is
 
 $$\sigma^2=\frac{SS_E}{n-3}$$
+where $n$ is the number of samples and subtracted by $3$ because it is the number of regressions + 1 $(df=n-(k+1))$ for the degrees of freedom of the Residual Error 
+
+Inputting the values,
+
+$$\sigma^2=\frac{7927.636}{9-3}$$
+$$\sigma^2=1321.273$$
+
+```{r}
+lmOut <- lm(y_i ~ x_1 + x_2, data = dat)
+summary(lmOut)
+```
+
+As we can see in the summary using r, the Residual Standard Error is $36.35$, by squaring it we get the value of $\sigma^2\approx35.35^2\approx1321.3$ 
 
 
-
-
-
-
-
-
-
-
-
-
+The estimated $\sigma^2$ is approximately $1321.3$.
 
 ---
 
 #### C. Compute the standard errors of the regression coefficients.
 
+Matrix Approach to Multiple Linear Regression
 
+Using the formula for the least squares estimates, we can find the standard errors of the regression coefficients using the Matrix Approach.
+
+$\hat\beta=(X'X)^-1X'y$
+
+where $X$ is 
+```{r echo=FALSE}
+x_matrix <- c (1, 54, 56, 1,61, 80, 1, 65, 70, 1, 100, 50, 1, 100, 65, 1, 100, 80, 1, 50, 25, 1, 57, 35, 1, 54, 26)
+X <- matrix (x_matrix, nrow=9, ncol=3, byrow=TRUE)
+X
+```
+$$\begin{bmatrix}
+1 & 54 & 56\\
+1 & 61 & 80\\
+1 & 65 & 70\\
+1 & 100 & 50\\
+1 & 100 & 65\\
+1 & 100 & 80\\
+1 & 50 & 25\\
+1 & 57 & 35\\
+1 & 54 & 26\\
+\end{bmatrix}$$
+
+and $y$ is 
+
+```{r echo=FALSE}
+y_matrix <- c (96, 50, 50, 112, 96, 80, 155, 144, 255)
+y_mat <- matrix (y_matrix, nrow=9, ncol=3, byrow=TRUE)
+y_mat
+```
+$$\begin{bmatrix}
+96\\
+50\\
+50\\
+112\\
+96\\
+80\\
+155\\
+144\\
+255\\
+\end{bmatrix}$$
+
+Getting the matrix of $X'$
+
+```{r echo=FALSE}
+x_inv <- t(X)
+x_inv
+```
+$$\begin{bmatrix}
+1 & 1 & 1& 1& 1& 1& 1& 1 & 1 \\
+54 &61& 65& 100& 100 &100 &50 &57& 54\\
+96& 50& 50 &112& 96& 80& 115& 144 &255 
+\end{bmatrix}$$
 
 ---
 
