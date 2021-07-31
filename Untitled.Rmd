@@ -242,6 +242,11 @@ Inputting the values,
 
 $$\sigma^2=\frac{7927.636}{9-3}$$
 $$\sigma^2=1321.273$$
+```{r}
+v=7927.636/6
+v
+
+```
 
 ```{r}
 lmOut <- lm(y_i ~ x_1 + x_2, data = dat)
@@ -259,9 +264,9 @@ The estimated $\sigma^2$ is approximately $1321.3$.
 
 Matrix Approach to Multiple Linear Regression
 
-Using the formula for the least squares estimates, we can find the standard errors of the regression coefficients using the Matrix Approach.
+Using the formula for the least squares estimates, we can find the standard errors of the regression coefficients using the Invividual variances and covariances formula
 
-$\hat\beta=(X'X)^-1X'y$
+$cov(\hat\beta)=\sigma^2(X'X)^{-1}$
 
 where $X$ is 
 ```{r echo=FALSE}
@@ -281,24 +286,7 @@ $$\begin{bmatrix}
 1 & 54 & 26\\
 \end{bmatrix}$$
 
-and $y$ is 
-
-```{r echo=FALSE}
-y_matrix <- c (96, 50, 50, 112, 96, 80, 155, 144, 255)
-y_mat <- matrix (y_matrix, nrow=9, ncol=3, byrow=TRUE)
-y_mat
-```
-$$\begin{bmatrix}
-96\\
-50\\
-50\\
-112\\
-96\\
-80\\
-155\\
-144\\
-255\\
-\end{bmatrix}$$
+and $\sigma^2$ is $1321.3$ 
 
 Getting the matrix of $X'$
 
@@ -309,18 +297,83 @@ x_inv
 $$\begin{bmatrix}
 1 & 1 & 1& 1& 1& 1& 1& 1 & 1 \\
 54 &61& 65& 100& 100 &100 &50 &57& 54\\
-96& 50& 50 &112& 96& 80& 115& 144 &255 
+56& 80& 70 &50& 65& 80& 25& 35 &26 
 \end{bmatrix}$$
+
+Solving for $(X'X)^{-1}$
+
+```{r}
+x_invx <- (x_inv %*% X)
+x_invx
+#The inverse
+
+```
+
+```{r}
+inverse <- solve(x_invx)
+inverse
+```
+
+
+Multiplying $\sigma^2(X'X)^{-1}$
+
+
+```{r}
+matsd <- (inverse * v)
+
+matsd
+
+
+```
+
+Now we have the diagonal values, we can solve for the Standard error of the regression coefficients.
+
+For $\hat\beta_0$
+
+at $C_{00}$
+
+$S_E(\hat\beta_0)= \sqrt{204.696527}=45.22937$
+
+For $\hat\beta_1$
+
+at $C_{11}$
+
+$S_E(\hat\beta_1) = \sqrt{0.4573925}=0.67631$
+
+For $\hat\beta_1$
+
+at $C_{33}$
+
+
+$S_E(\hat\beta_2) = \sqrt{0.4573925}=0.68875$
+
+Veryfying with using R
+
+```{r}
+lmOut <- lm(y_i ~ x_1 + x_2, data = dat)
+summary(lmOut)
+```
+
+The value of the Standard Errors are in the table of coefficients, under 2nd column. We see that the values are similar.
 
 ---
 
 #### D. Predict the useful range when brightness = 80 and contrast = 75.
 
+Using the Linear Regression Model, $\hat y = 238.5569   +    0.3339x_1   +  (-2.7167)x_2$, we can easily substitute the values of $\hat\beta_1$ and  $\hat\beta_2$
 
-
+```{r}
+y_hat=238.5569+(0.3339*80)-(2.7167*75)
+y_hat
+```
+The useful range when brightness = 80 and contrast = 75 is $61.5164$.
 ---
 
 #### E. Test for significance of regression using $\alpha$=0.05. What is the P-value for this test?
+
+
+
+
 
 
 ---
@@ -344,3 +397,5 @@ https://www.cyclismo.org/tutorial/R/linearLeastSquares.html
 https://daviddalpiaz.github.io/appliedstats/simple-linear-regression.html
 
 https://www.colorado.edu/amath/sites/default/files/attached-files/ch12_0.pdf
+
+https://www.learnbymarketing.com/tutorials/explaining-the-lm-summary-in-r/
