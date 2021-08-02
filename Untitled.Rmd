@@ -163,14 +163,9 @@ Our answer would be 4.6834438 or approximately 5. This would show that our **pre
 y_i  <- c(96, 50,	50,	112,	96,	80,	155,	144,	255)
 x_1 <- c(54,	61,	65,	100,	100,	100,	50,	57,	54)
 x_2 <- c(56,	80,	70,	50,	65,	80,	25,	35,	26)
-
 dat<-data.frame(y_i,x_1,x_2)
-
 knitr::kable(dat,"pipe",col.name=c("Useful Range $y_i$", "Brightness (%) $x_{1i}$", "Contrast (%) $x_{2i}$"), align=c("c","c", "c"))
-
 plot(dat)
-
-
 ```
 
 
@@ -191,6 +186,7 @@ Through the lm function, we can find the coefficients ($\beta_0 , \beta_1 , \bet
 B <-	c(54, 61,	65,	100, 100,	100, 50, 57, 54)
 C <- c(56, 80, 70, 50, 65, 80, 25, 35, 26)
 Ur <- c(96, 50, 50,	112, 96, 80, 155, 144, 255)
+
 lm(Ur ~ B + C)
 ```
 
@@ -245,7 +241,6 @@ $$\sigma^2=1321.273$$
 ```{r}
 v=7927.636/6
 v
-
 ```
 
 ```{r}
@@ -253,7 +248,7 @@ lmOut <- lm(y_i ~ x_1 + x_2, data = dat)
 summary(lmOut)
 ```
 
-As we can see in the summary using r, the Residual Standard Error is $36.35$, by squaring it we get the value of $\sigma^2\approx35.35^2\approx1321.3$ 
+As we can see in the summary using r, the Residual Standard Error is $36.35$, by squaring it we get the value of $\sigma^2\approx36.35^2\approx1321.3$ 
 
 
 The estimated $\sigma^2$ is approximately $1321.3$.
@@ -306,7 +301,6 @@ Solving for $(X'X)^{-1}$
 x_invx <- (x_inv %*% X)
 x_invx
 #The inverse
-
 ```
 
 ```{r}
@@ -320,10 +314,7 @@ Multiplying $\sigma^2(X'X)^{-1}$
 
 ```{r}
 matsd <- (inverse * v)
-
 matsd
-
-
 ```
 
 Now we have the diagonal values, we can solve for the Standard error of the regression coefficients.
@@ -332,7 +323,7 @@ For $\hat\beta_0$
 
 at $C_{00}$
 
-$S_E(\hat\beta_0)= \sqrt{204.696527}=45.22937$
+$S_E(\hat\beta_0)= \sqrt{2045.61486}=45.22847$
 
 For $\hat\beta_1$
 
@@ -345,7 +336,7 @@ For $\hat\beta_1$
 at $C_{33}$
 
 
-$S_E(\hat\beta_2) = \sqrt{0.4573925}=0.68875$
+$S_E(\hat\beta_2) = \sqrt{0.4743554}=0.68875$
 
 Veryfying with using R
 
@@ -366,10 +357,20 @@ Using the Linear Regression Model, $\hat y = 238.5569   +    0.3339x_1   +  (-2.
 y_hat=238.5569+(0.3339*80)-(2.7167*75)
 y_hat
 ```
+
 The useful range when brightness = 80 and contrast = 75 is $61.5164$.
+
 ---
 
-#### E. Test for significance of regression using $\alpha$=0.05. What is the P-value for this test?
+#### E. Test for significance of regression using $\alpha$ = 0.05. What is the P-value for this test?
+
+From the summary of the significance of regression, the p-value of the test is 0.01459. Using $\alpha=0.05$, we can compare the two values.
+
+$$p-value<\alpha$$
+$$0.01459<0.05$$
+
+
+Since the the p-value is 0.01459, it is less than $\alpha=0.05$, the regression is indeed significant and the variables are proved to be affecting the Useful Range.
 
 
 
@@ -380,7 +381,38 @@ The useful range when brightness = 80 and contrast = 75 is $61.5164$.
 
 #### F. Construct a t-test on each regression coefficient. What conclusions can you draw about the variables in this model? Use $\alpha$=0.05.
 
+To compute for the t-test on each regression coefficient, we can refer again in the summary:
 
+```{r}
+lmOut <- lm(y_i ~ x_1 + x_2, data = dat)
+summary(lmOut)
+```
+
+Under coefficients, we can see that the value of the coefficients in the multiple linear regression model divided by the standard error is equal to the coefficient's t-value.
+
+$t_{0\hat\beta_0}=5.274$
+$t_{1\hat\beta_1}=0.494$
+$t_{2\hat\beta_2}=-3.945$
+
+Computing for the critical value to test the t-values of the coefficients with $\alpha=0.05$ using R:
+
+```{r}
+criticalT=qt(0.05,df=6,lower.tail=FALSE) #df= n-k-1 where k = no. of regressions
+criticalT
+
+```
+The critical value is then:
+$t=1.94318$
+
+Comparing the t-values of the coefficients to the critical value by taking their absolute value, 
+
+$t_{1\hat\beta_1}=0.494<t=1.94318$
+
+$t_{2\hat\beta_2}=3.945>t=1.94318$
+
+We can conclude that the Brightness coefficient has insufficient evidence that it is related directly with the useful range as $t_{1\hat\beta_1}<t$.
+
+Additionaly, the Contrast coefficient has a direct relationship with the Useful Range as $t_{2\hat\beta_2}>t$.   
 
 ---
 
@@ -392,10 +424,3 @@ Montgomery, D. C., & Runger, G. C. (2019). 10 Statistical Inference for Two Samp
 
 R. Pruim, “Mathematics in R Markdown”, Rpruim.github.io, 2021. [Online]. Available: https://rpruim.github.io/s341/S19/from-class/MathinRmd.html. [Accessed: 25- Jul- 2021].
 
-https://www.cyclismo.org/tutorial/R/linearLeastSquares.html
-
-https://daviddalpiaz.github.io/appliedstats/simple-linear-regression.html
-
-https://www.colorado.edu/amath/sites/default/files/attached-files/ch12_0.pdf
-
-https://www.learnbymarketing.com/tutorials/explaining-the-lm-summary-in-r/
