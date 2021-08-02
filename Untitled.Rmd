@@ -391,7 +391,9 @@ summary(lmOut)
 Under coefficients, we can see that the value of the coefficients in the multiple linear regression model divided by the standard error is equal to the coefficient's t-value.
 
 $t_{0\hat\beta_0}=5.274$
+
 $t_{1\hat\beta_1}=0.494$
+
 $t_{2\hat\beta_2}=-3.945$
 
 Computing for the critical value to test the t-values of the coefficients with $\alpha=0.05$ using R:
